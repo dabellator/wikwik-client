@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Geomanist';
+  src: local('Geomanist'), url(./fonts/geomanist-regular-webfont.woff) format('woff');
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+};
+
+@keyframes wait {
+  0% { opacity: 0 };
+  100% { opacity: 0};
+};
+@keyframes fadeIn {
+  0% { opacity: 0 };
+  100% { opacity: 1};
+};
