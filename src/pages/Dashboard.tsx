@@ -4,14 +4,11 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { RouteComponentProps } from '@reach/router';
 import gql from 'graphql-tag';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DocumentLayout from '../components/layouts/Document';
 import { AuthContext } from '../lib/authProvider';
 import { GetDocument_getMyResponses, GetDocument_organization_initial_exercises } from './__generated__/GetDocument';
 
-// Run single request with 2 queries
-// Document template
-// Responses
 export const GET_DOCUMENT = gql`
   query GetDocument {
     organization {
@@ -43,6 +40,10 @@ const Dashboard: React.FC<DashboardProps> = () => {
   // How to handle login? If they arrive on this page and are not authed,
   // the document pane should show a message asking them to login, but they
   // can choose not to
+
+  useEffect(() => {
+    setViewContent(!!isAuthenticated);
+  }, [isAuthenticated]);
 
   const handleNoAuth = () => {
     setViewContent(true);

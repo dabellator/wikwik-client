@@ -61,6 +61,14 @@ export const GET_ONBOARDING = gql`
         }
       }
     }
+    getMyResponses {
+      exercise_id
+      values {
+        name
+        value
+        response_id
+      }
+    }
   }
 `;
 
@@ -94,14 +102,17 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
   // Handle current place in the onboarding process
   // @ts-ignore
   const pages = data?.organization?.initial_exercises as GetOnboarding_organization_initial_exercises[];
+  const responses = data?.getMyResponses;
   const setCurrentData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputData(newValue);
   }
 
   useEffect(() => {
-    setButtonsIn(false);
     if (!!pages) {
+      if (responses.some(response => response.id === pages[currentPage].id)) {
+        return setCurrentPage(currentPage + 1);
+      }
       setTimeout(() => {
         setButtonsIn(true)
       }, duration * (pages[currentPage].fields.length))
@@ -125,6 +136,8 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
       values
     }});
     setInputData('');
+    setButtonsIn(false);
+    setIsHelp(false);
     handleNext();
   }
 
@@ -166,7 +179,7 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
                 display='flex'
                 justifyContent='space-between'
               >
-                <Button onClick={() => setIsHelp(true)}>I don't know</Button>
+                <Button onClick={() => setIsHelp(!isHelp)}>{`${isHelp ? 'Go back to answer' : 'I don\'t know'}`}</Button>
                 <Button disabled={!isHelp && inputData.length < 5} onClick={submitData}>
                   {!isHelp && inputData.length < 5
                     ? 'Use the form above, or hit the button to say you don\'t know'

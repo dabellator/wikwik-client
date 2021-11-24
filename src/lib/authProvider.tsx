@@ -23,7 +23,7 @@ const AuthProvider: React.FC = ({
 
   useEffect(() => {
     const getToken = async () => {
-      const token = isAuthenticated
+      const token = await isAuthenticated
         ? await getAccessTokenSilently({
             audience: process.env.REACT_APP_API_AUDIENCE,
             scope: 'openid email',

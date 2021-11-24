@@ -47,7 +47,6 @@ const FieldParser: React.FC<FieldParserProps> = ({
   const [ currentIn, setCurrentIn ] = useState(false);
 
   useEffect(() => {
-    console.log(label);
     setCurrentIn(false);
     setTimeout(() => {
       setCurrentIn(true);

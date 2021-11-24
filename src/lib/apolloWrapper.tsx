@@ -1,28 +1,50 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   ApolloClient,
   ApolloProvider,
   concat,
+  gql,
   HttpLink,
-  gql
  } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { cache } from '../cache';
 import { AuthContext } from './authProvider';
+import { useAuth0 } from '@auth0/auth0-react';
+
+const UPDATE_IDENTITY_AUTHENTICATION = gql`
+  mutation UpdateIdentityAuthentication($authToken: String!, $anonID: String!) {
+    updateIdentityAuthentication(authToken: $authToken, anonID: $anonID) {
+      id
+    }
+  }
+`;
 
 const AuthorizedApolloProvider: React.FC = ({ children }) => {
-  const { bearerToken, anonymousID } = useContext(AuthContext);
+  const { anonymousID } = useContext(AuthContext);
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   
+  useEffect(() => {
+    console.log(anonymousID, isAuthenticated)
+    if (!!anonymousID && isAuthenticated) {
+      const updateIdentityAuthentication = async () => {
+        const token = await getAccessTokenSilently();
+        client.mutate({mutation: UPDATE_IDENTITY_AUTHENTICATION, variables: {authToken: token, anonID: anonymousID}})
+      };
+      updateIdentityAuthentication();
+    }
+  }, [isAuthenticated, anonymousID])
+
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_GQL_URL
   })
 
-  const authLink = setContext((_, { headers, ...rest}) => {
+  const authLink = setContext(async (_, { headers, ...rest}) => {
+    const token = await getAccessTokenSilently();
     return {
       ...rest,
       headers: {
         ...headers,
-        ...( bearerToken && { authorization: `Bearer: ${bearerToken}` }),
+        ...( token && { authorization: `Bearer: ${token}` }),
         ...( anonymousID && { 'X-ANON-ID': anonymousID }),
       },
     };
