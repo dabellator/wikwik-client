@@ -28,6 +28,20 @@ export interface GetOnboarding_organization {
   initial_exercises: GetOnboarding_organization_initial_exercises[];
 }
 
+export interface GetOnboarding_getMyResponses_values {
+  __typename: "ResponseValue";
+  name: string | null;
+  value: string | null;
+  response_id: number | null;
+}
+
+export interface GetOnboarding_getMyResponses {
+  __typename: "Response";
+  exercise_id: number | null;
+  values: (GetOnboarding_getMyResponses_values | null)[] | null;
+}
+
 export interface GetOnboarding {
   organization: GetOnboarding_organization | null;
+  getMyResponses: (GetOnboarding_getMyResponses | null)[] | null;
 }

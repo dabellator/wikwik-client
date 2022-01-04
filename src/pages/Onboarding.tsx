@@ -110,7 +110,7 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
 
   useEffect(() => {
     if (!!pages) {
-      if (responses.some(response => response.id === pages[currentPage].id)) {
+      if (responses?.some(response => response?.exercise_id === pages[currentPage].id)) {
         return setCurrentPage(currentPage + 1);
       }
       setTimeout(() => {
