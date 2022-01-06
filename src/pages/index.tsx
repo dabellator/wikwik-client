@@ -9,7 +9,7 @@ const Pages: React.FC = () => {
   return (
     <Router>
       <ProtectedRoute component={Dashboard} path='/dashboard' />
-        <Onboarding path='/onboarding' />
+        <Onboarding path='/' />
       <Login path='/login' />
       <Dashboard path='/document' />
     </Router>

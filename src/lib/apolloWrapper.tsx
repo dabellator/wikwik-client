@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   ApolloClient,
   ApolloProvider,
@@ -22,12 +22,13 @@ const UPDATE_IDENTITY_AUTHENTICATION = gql`
 const AuthorizedApolloProvider: React.FC = ({ children }) => {
   const { anonymousID } = useContext(AuthContext);
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [ token, setToken ] = useState("");
   
   useEffect(() => {
-    console.log(anonymousID, isAuthenticated)
     if (!!anonymousID && isAuthenticated) {
       const updateIdentityAuthentication = async () => {
         const token = await getAccessTokenSilently();
+        setToken(token);
         client.mutate({mutation: UPDATE_IDENTITY_AUTHENTICATION, variables: {authToken: token, anonID: anonymousID}})
       };
       updateIdentityAuthentication();
@@ -39,7 +40,6 @@ const AuthorizedApolloProvider: React.FC = ({ children }) => {
   })
 
   const authLink = setContext(async (_, { headers, ...rest}) => {
-    const token = await getAccessTokenSilently();
     return {
       ...rest,
       headers: {

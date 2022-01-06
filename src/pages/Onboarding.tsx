@@ -92,7 +92,7 @@ export const CREATE_RESPONSE = gql`
 // On the BE, if that is received with the message, upsert a user
 
 const Onboarding: React.FC<RouteComponentProps> = () => {
-  const { data, loading } = useQuery<GetOnboarding>(GET_ONBOARDING);
+  const { data, loading, error } = useQuery<GetOnboarding>(GET_ONBOARDING);
   const [ createResponse ] = useMutation(CREATE_RESPONSE);
   const classes = useStyles();
   const [ currentPage, setCurrentPage ] = useState(0);
@@ -107,7 +107,7 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
     const newValue = e.target.value;
     setInputData(newValue);
   }
-
+  console.log(error)
   useEffect(() => {
     if (!!pages) {
       if (responses?.some(response => response?.exercise_id === pages[currentPage].id)) {
@@ -168,7 +168,7 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
           />
         ))}
         {/* @ts-ignore */}
-        <Transition in={buttonsIn} duration={duration}>
+        <Transition in={buttonsIn} duration={duration} timeout={10000}>
           {state => (
             <div style={{
               ...defaultStyle,
