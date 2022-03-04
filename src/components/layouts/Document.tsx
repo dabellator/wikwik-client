@@ -22,7 +22,7 @@ const DocumentLayout: React.FC<DocumentLayoutProps> = ({
       <Container maxWidth='md'>
         {skeleton
           ? (
-            <div>nothing here</div>
+            <div>Loading...</div>
           )
           : children
         }

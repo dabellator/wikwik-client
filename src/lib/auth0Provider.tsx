@@ -16,7 +16,7 @@ const Auth0ProviderWrapper: React.FC = ({ children }) => {
       clientId={clientId}
       redirectUri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
-      audience='http://localhost:4000'
+      audience={process.env.REACT_APP_API_AUDIENCE}
       responseType='token id_token'
       scope='openid email'
     >

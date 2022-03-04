@@ -31,7 +31,7 @@ const StandardLayout: React.FC<StandardLayoutProps> = ({
         <Container maxWidth='md'>
           {skeleton
             ? (
-              <div>nothing here</div>
+              <div>Loading...</div>
             )
             : children
           }

@@ -1,16 +1,14 @@
-import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
-import React, { useEffect, FC, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ExerciseFieldType } from '../../../__generated__/globalTypes';
 import {
-  Title,
   Content,
   Question,
   Select,
 } from '.';
 import { Transition } from 'react-transition-group';
 
-const duration = 5000;
+const duration = 2000;
 
 export type Nullable<T> = T | null;
 

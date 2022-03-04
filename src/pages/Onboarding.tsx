@@ -15,7 +15,7 @@ import {
 import FieldParser from '../components/onboarding/FieldParser';
 import { makeStyles } from '@mui/styles';
 
-export const duration = 5000;
+export const duration = 2000;
 
 const defaultStyle = {
   transition:  `opacity ${duration}ms ease-in-out`,
@@ -41,9 +41,9 @@ const useStyles = makeStyles({
   navigationWrapper: {
     animation: `$wait, $fadeIn ease`,
     // @ts-ignore
-    animationDuration: `${4 * 5}s, 5s`,
+    animationDuration: `${4 * 2}s, 2s`,
     // @ts-ignore
-    animationDelay: `0s, ${4 * 5}s`,
+    animationDelay: `0s, ${4 * 2}s`,
   }
 });
 
@@ -107,15 +107,19 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
     const newValue = e.target.value;
     setInputData(newValue);
   }
-  console.log(error)
+
   useEffect(() => {
     if (!!pages) {
-      if (responses?.some(response => response?.exercise_id === pages[currentPage].id)) {
+      if (responses?.some(response => response?.exercise_id === pages[currentPage]?.id)) {
         return setCurrentPage(currentPage + 1);
       }
-      setTimeout(() => {
-        setButtonsIn(true)
-      }, duration * (pages[currentPage].fields.length))
+      if (currentPage >= pages.length) {
+        navigate('/document');
+      } else {
+        setTimeout(() => {
+          setButtonsIn(true)
+        }, duration * (pages[currentPage].fields.length))
+      }
     }
   }, [currentPage, pages])
 
@@ -155,7 +159,7 @@ const Onboarding: React.FC<RouteComponentProps> = () => {
     : (
       <StandardLayout>
         {/* @ts-ignore */}
-        {!!pages && pages[currentPage].fields.filter((field: OnboardingFields, i) => (
+        {!!pages && pages[currentPage]?.fields.filter((field: OnboardingFields, i) => (
           (field.name === 'noKnow') === isHelp
         )).map((field: OnboardingFields, i: number) => (
           <FieldParser
