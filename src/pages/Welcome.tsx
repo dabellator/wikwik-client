@@ -1,13 +1,12 @@
 import { useQuery } from '@apollo/client';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { navigate, RouteComponentProps } from '@reach/router';
 import gql from 'graphql-tag';
 import React, { useContext, useEffect, useState } from 'react';
 import StandardLayout from '../components/layouts/Standard';
 import { AuthContext } from '../lib/authProvider';
-import { GetDocument_getMyResponses, GetDocument_organization_initial_exercises } from './__generated__/GetDocument';
 
 export const GET_ORGANIZATION = gql`
   query GetOrganization($hostName: String) {
@@ -27,7 +26,7 @@ interface DashboardProps extends RouteComponentProps {
 const Dashboard: React.FC<DashboardProps> = () => {
   const { data, loading } = useQuery(GET_ORGANIZATION, {
     variables: {
-      hostName: 'g2i.wikwik.co'
+      hostName: window.location.hostname || 'app.wikwik.co'
     }
   });
   const { isAuthenticated } = useContext(AuthContext);

@@ -10,7 +10,7 @@ import { Transition } from 'react-transition-group';
 
 import {
   GetOnboarding,
-  GetOnboarding_organization_initial_exercises_fields as OnboardingFields
+  GetOnboarding_getOrganization_initial_exercises_fields as OnboardingFields
 } from './__generated__/GetOnboarding';
 import FieldParser from '../components/onboarding/FieldParser';
 import { makeStyles } from '@mui/styles';
@@ -49,7 +49,7 @@ const useStyles = makeStyles({
 
 // Get whole onboarding array? That feels the best to me.
 export const GET_ONBOARDING = gql`
-  query GetOnboarding {
+  query GetOnboarding($hostName: String) {
     getOrganization(hostName: $hostName) {
       initial_exercises {
         id
