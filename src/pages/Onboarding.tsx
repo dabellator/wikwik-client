@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 // Get whole onboarding array? That feels the best to me.
 export const GET_ONBOARDING = gql`
   query GetOnboarding {
-    organization {
+    getOrganization(hostName: $hostName) {
       initial_exercises {
         id
         fields {
@@ -92,7 +92,11 @@ export const CREATE_RESPONSE = gql`
 // On the BE, if that is received with the message, upsert a user
 
 const Onboarding: React.FC<RouteComponentProps> = () => {
-  const { data, loading, error } = useQuery<GetOnboarding>(GET_ONBOARDING);
+  const { data, loading, error } = useQuery<GetOnboarding>(GET_ONBOARDING, {
+    variables: {
+      hostName: 'g2i.wikwik.co'
+    }
+  });
   const [ createResponse ] = useMutation(CREATE_RESPONSE);
   const classes = useStyles();
   const [ currentPage, setCurrentPage ] = useState(0);

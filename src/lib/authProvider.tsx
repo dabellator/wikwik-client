@@ -18,6 +18,7 @@ const AuthProvider: React.FC = ({
   children
 }) => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  console.log(isAuthenticated)
   const [ bearerToken, setBearerToken ] = useState('');
   const [ anonymousID, setAnonymousID ] = useState('');
 

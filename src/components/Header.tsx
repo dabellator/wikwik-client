@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = () => {
               <Typography>Logout</Typography>
             </Button>
           ) : (
-            <Button onClick={() => loginWithRedirect()}>
+            <Button onClick={() => loginWithRedirect({redirectUri: `${window.location.protocol}//${window.location.host}/document`})}>
               <Typography>Login</Typography>
             </Button>
           )  
